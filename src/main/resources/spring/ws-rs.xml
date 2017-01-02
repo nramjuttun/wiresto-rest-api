@@ -19,12 +19,11 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 
+	<!--  MESSAGES -->	
+	<bean id="gson" class="com.wiresto.jaxrs.message.gson.StandardGsonFactory" factory-method="create"/>
 	
-	
-	
-		
-	
-	
+	<bean class="com.wiresto.jaxrs.message.gson.GsonMessageBodyReader" autowire="byType"/>
+	<bean class="com.wiresto.jaxrs.message.gson.GsonMessageBodyWriter" autowire="byType"/>		
 	
 		
 </beans>
