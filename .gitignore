@@ -1,0 +1,9 @@
+# Build stuff
+**/target/**
+**/test-output/**
+
+# Eclipse stuff
+**/.settings/**
+**/.project
+**/.classpath
+.classpath
