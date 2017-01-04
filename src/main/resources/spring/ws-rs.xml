@@ -17,11 +17,26 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+		
+	<!-- ENDPOINT LOGGERS -->
+	<bean id="errorEndpointLogger" class="com.wiresto.jaxrs.filter.logging.JsonEndpointLogger">
+		<constructor-arg value="errorLogger"/>
+	</bean>
+	
+	<bean id="accessEndpointLogger" class="com.wiresto.jaxrs.filter.logging.JsonEndpointLogger">
+		<constructor-arg value="accessLogger"/>
+	</bean>
+		
 
+	<!-- EXCEPTION MAPPER -->
+	<bean id="exceptionMapper" class="com.wiresto.jaxrs.exception.mapper.DefaultExceptionMapper">
+		<constructor-arg ref="errorEndpointLogger"/>
+	</bean>
+	
 
 	<!--  MESSAGES -->	
 	<bean id="gson" class="com.wiresto.jaxrs.message.gson.StandardGsonFactory" factory-method="create"/>
-	
+		
 	<bean class="com.wiresto.jaxrs.message.gson.GsonMessageBodyReader" autowire="byType"/>
 	<bean class="com.wiresto.jaxrs.message.gson.GsonMessageBodyWriter" autowire="byType"/>		
 	
