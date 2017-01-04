@@ -3,6 +3,7 @@
   <property name="applicationLog" value="/var/log/wiresto-rest-api/application.log" />  
   <property name="errorLog" value="/var/log/wiresto-rest-api/error.log" />
   <property name="accessLog" value="/var/log/wiresto-rest-api/access.log" />
+  <property name="metricLog" value="/var/log/wiresto-rest-api/metric.log" />
   
   
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">     
@@ -65,6 +66,24 @@
 		</encoder>
   </appender>
   
+  <appender name="METRIC_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${metricLog}</file>
+     
+      	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+	      <fileNamePattern>${metricLog}.%i.zip</fileNamePattern>
+	      <minIndex>1</minIndex>
+	      <maxIndex>10</maxIndex>
+	    </rollingPolicy>
+	    
+     	<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      		<maxFileSize>50MB</maxFileSize>
+    	</triggeringPolicy>
+     
+	     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+		    <pattern>%msg%n</pattern>
+		</encoder>
+  </appender>
+  
   <logger name="errorLogger" additivity="false">
   	<level value="INFO" />	
   	<appender-ref ref="ERROR_LOG" />	
@@ -73,6 +92,11 @@
   <logger name="accessLogger" additivity="false">
   	<level value="INFO" />	
   	<appender-ref ref="ACCESS_LOG" />	
+  </logger> 
+  
+  <logger name="metricLogger" additivity="false">
+  	<level value="INFO" />	
+  	<appender-ref ref="METRIC_LOG" />	
   </logger> 
    
   <root level="INFO">

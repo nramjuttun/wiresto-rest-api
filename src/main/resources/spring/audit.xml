@@ -21,9 +21,21 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+		
+		
+		<!-- Audit to log method stats -->
+		<bean id="methodStatsAudit" class="com.wiresto.audit.JsonMethodStatsAudit">
+			<constructor-arg value="metricLogger"/>
+		</bean>
+		
+		<!-- Advice to be excuted when method calls are intercepted -->
+		<bean id="methodExecutionAroundAdvice" class="com.wiresto.audit.advice.MethodExecutionAroundAdvice">
+			<constructor-arg ref="methodStatsAudit"/>
+		</bean>		
 				
-		<context:component-scan base-package="com.wiresto" />		
-				
-		<import resource="audit.xml"/>
-		<import resource="ws-rs.xml"/>
+		<!-- Define methods we want to intercept and record stats about -->
+		<aop:config>
+			<aop:advisor pointcut="execution(* com.wiresto.jaxrs.resource.HealthCheckResource.status(..))" advice-ref="methodExecutionAroundAdvice"/>		
+		</aop:config>
+		
 </beans>
