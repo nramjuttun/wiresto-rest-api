@@ -1,6 +1,8 @@
 <configuration>
 
-  <property name="log" value="/var/log/wiresto-rest-api/application.log" />
+  <property name="applicationLog" value="/var/log/wiresto-rest-api/application.log" />  
+  <property name="errorLog" value="/var/log/wiresto-rest-api/error.log" />
+  <property name="accessLog" value="/var/log/wiresto-rest-api/access.log" />
   
   
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">     
@@ -9,11 +11,11 @@
 		</encoder>
   </appender> 
     
-  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-	    <file>${log}</file>
+  <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${applicationLog}</file>
      
       	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${log}.%i.zip</fileNamePattern>
+	      <fileNamePattern>${applicationLog}.%i.zip</fileNamePattern>
 	      <minIndex>1</minIndex>
 	      <maxIndex>10</maxIndex>
 	    </rollingPolicy>
@@ -26,10 +28,56 @@
 		    <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger :%M %L - %msg%n</pattern>
 		</encoder>
   </appender>  
+  
+  <appender name="ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${errorLog}</file>
+     
+      	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+	      <fileNamePattern>${errorLog}.%i.zip</fileNamePattern>
+	      <minIndex>1</minIndex>
+	      <maxIndex>10</maxIndex>
+	    </rollingPolicy>
+	    
+     	<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      		<maxFileSize>50MB</maxFileSize>
+    	</triggeringPolicy>
+     
+	     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+		    <pattern>%msg%n</pattern>
+		</encoder>
+  </appender>
+  
+  <appender name="ACCESS_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${accessLog}</file>
+     
+      	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+	      <fileNamePattern>${accessLog}.%i.zip</fileNamePattern>
+	      <minIndex>1</minIndex>
+	      <maxIndex>10</maxIndex>
+	    </rollingPolicy>
+	    
+     	<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      		<maxFileSize>50MB</maxFileSize>
+    	</triggeringPolicy>
+     
+	     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+		    <pattern>%msg%n</pattern>
+		</encoder>
+  </appender>
+  
+  <logger name="errorLogger" additivity="false">
+  	<level value="INFO" />	
+  	<appender-ref ref="ERROR_LOG" />	
+  </logger> 
+  
+  <logger name="accessLogger" additivity="false">
+  	<level value="INFO" />	
+  	<appender-ref ref="ACCESS_LOG" />	
+  </logger> 
    
   <root level="INFO">
   	<appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
+    <appender-ref ref="APPLICATION_LOG" />
   </root>
   
 </configuration>
