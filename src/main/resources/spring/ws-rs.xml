@@ -33,6 +33,12 @@
 		<constructor-arg ref="errorEndpointLogger"/>
 	</bean>
 	
+	
+	<!-- FILTER -->
+	<bean id="accessLoggingFilter" class="com.wiresto.jaxrs.filter.logging.access.AccessLoggingFilter">
+		<constructor-arg ref="accessEndpointLogger"/>
+	</bean>
+	
 
 	<!--  MESSAGES -->	
 	<bean id="gson" class="com.wiresto.jaxrs.message.gson.StandardGsonFactory" factory-method="create"/>
