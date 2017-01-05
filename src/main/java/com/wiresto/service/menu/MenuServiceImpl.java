@@ -1,7 +1,10 @@
 package com.wiresto.service.menu;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.wiresto.dao.menu.MenuDAO;
 import com.wiresto.domain.Menu;
@@ -10,6 +13,11 @@ import com.wiresto.domain.MenuItem;
 public class MenuServiceImpl implements MenuService{
 	
 	private MenuDAO menuDAO;
+	
+	@Override
+	public List<Menu> listAllMenus() {
+		return menuDAO.getAll();
+	}
 
 	@Override
 	public Menu getMenu(Integer menuId) throws IllegalArgumentException,
@@ -21,19 +29,36 @@ public class MenuServiceImpl implements MenuService{
 		Menu menu = menuDAO.get(menuId);
 
 		if(menu==null)
-			throw new MenuNotFoundException(menuId);		
-		
-		System.out.println(this.getTotalItemsPrice(menu));
-		System.out.println(this.getNumActiveMenus(menu.getSubmenus()));
+			throw new MenuNotFoundException(menuId);				
 		
 		return menu;
 	}
+	
+	@Override
+	public List<MenuItem> getItems(Integer menuId) throws IllegalArgumentException, MenuNotFoundException{
+		Menu menu = this.getMenu(menuId);
+		return menu.getItems();
+	}
 
 	@Override
-	public List<Menu> listAllMenus() {
-		return menuDAO.getAll();
-	}
-	
+	public Map<BigDecimal, List<MenuItem>> getItemsGroupedByPrice(Integer menuId) throws IllegalArgumentException, MenuNotFoundException{
+		
+		Map<BigDecimal, List<MenuItem>> map = new HashMap<BigDecimal, List<MenuItem>>();
+		
+		Menu menu = this.getMenu(menuId);
+		
+		for(MenuItem item : menu.getItems()){
+			BigDecimal price = item.getPrice().getValue();
+			List<MenuItem> items = map.get(price);
+			if(items==null){
+				items = new ArrayList<MenuItem>();
+				map.put(price, items);
+			}
+			items.add(item);			
+		}
+		
+		return map;
+	}	
 	
 	@Override
 	public BigDecimal getTotalItemsPrice(Integer menuId) throws IllegalArgumentException, MenuNotFoundException{
@@ -56,8 +81,7 @@ public class MenuServiceImpl implements MenuService{
 		}		
 		
 		return sum;
-	}
-	
+	}	
 	
 	
 	@Override

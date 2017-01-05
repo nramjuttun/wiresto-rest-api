@@ -39,6 +39,8 @@
 			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.listAllMenus(..))" advice-ref="methodExecutionAroundAdvice"/>
 			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getNumberOfActiveSubMenus(..))" advice-ref="methodExecutionAroundAdvice"/>	
 			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getTotalItemsPrice(..))" advice-ref="methodExecutionAroundAdvice"/>
+			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getItemsGroupedByPrice(..))" advice-ref="methodExecutionAroundAdvice"/>
+			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getItems(..))" advice-ref="methodExecutionAroundAdvice"/>
 		</aop:config>
 		
 </beans>
