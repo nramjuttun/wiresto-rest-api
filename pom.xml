@@ -4,7 +4,7 @@
 
 	<groupId>com.wiresto</groupId>
 	<artifactId>wiresto-rest-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<name>wiResto REST API</name>
 
