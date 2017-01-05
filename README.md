@@ -18,6 +18,10 @@ Example
 http://localhost:5000/wiresto/menus
 
 http://localhost:5000/wiresto/menus/{menuId}
+
+http://localhost:5000/wiresto/menus/{menuId}/items
+
+http://localhost:5000/wiresto/menus/{menuId}/items?groupBy=price
 ```
 
 
