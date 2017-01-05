@@ -24,6 +24,7 @@ import com.google.gson.JsonSyntaxException;
 import com.wiresto.jaxrs.filter.logging.EndpointLogger;
 import com.wiresto.jaxrs.filter.logging.LogEntry;
 import com.wiresto.jaxrs.filter.logging.RequestStartTimeContext;
+import com.wiresto.service.menu.MenuNotFoundException;
 
 /**
  * Generic mapper to translate exceptions to JAX-RS response.
@@ -72,9 +73,9 @@ public class DefaultExceptionMapper implements ExceptionMapper<Exception> {
 
 	private Response handle(Exception exception){
 		
-		if(exception instanceof NotFoundException){
+		if(exception instanceof NotFoundException || exception instanceof MenuNotFoundException){
 			Status status = Status.NOT_FOUND;
-			return getResponse(status, status.getStatusCode(), "Resource not found");			
+			return getResponse(status, status.getStatusCode(), exception.getMessage());			
 		}
 		
 		if(exception instanceof NotAllowedException){		
@@ -90,6 +91,11 @@ public class DefaultExceptionMapper implements ExceptionMapper<Exception> {
 		if(exception instanceof JsonSyntaxException){	
 			Status status = Status.BAD_REQUEST;
 			return getResponse(status, status.getStatusCode(), "JSON payload is invalid");		
+		}
+		
+		if(exception instanceof IllegalArgumentException){	
+			Status status = Status.BAD_REQUEST;
+			return getResponse(status, status.getStatusCode(), exception.getMessage());		
 		}
 		
 		handleInternalError(exception);

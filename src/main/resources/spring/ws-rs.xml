@@ -50,5 +50,9 @@
 	<!-- ENDPOINTS -->	
 	<bean class="com.wiresto.jaxrs.resource.HealthCheckResource"/>
 	
+	<bean class="com.wiresto.jaxrs.resource.MenuResource">
+		<property name="menuService" ref="menuService"/>
+	</bean>
+	
 		
 </beans>

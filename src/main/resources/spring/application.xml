@@ -24,6 +24,9 @@
 				
 		<context:component-scan base-package="com.wiresto" />		
 				
+		<import resource="data.xml"/>
+		<import resource="dao.xml"/>
+		<import resource="service.xml"/>
 		<import resource="audit.xml"/>
 		<import resource="ws-rs.xml"/>
 </beans>

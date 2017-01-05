@@ -35,7 +35,10 @@
 				
 		<!-- Define methods we want to intercept and record stats about -->
 		<aop:config>
-			<aop:advisor pointcut="execution(* com.wiresto.jaxrs.resource.HealthCheckResource.status(..))" advice-ref="methodExecutionAroundAdvice"/>		
+			<aop:advisor pointcut="execution(* com.wiresto.jaxrs.resource.HealthCheckResource.status(..))" advice-ref="methodExecutionAroundAdvice"/>	
+			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.listAllMenus(..))" advice-ref="methodExecutionAroundAdvice"/>
+			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getNumberOfActiveSubMenus(..))" advice-ref="methodExecutionAroundAdvice"/>	
+			<aop:advisor pointcut="execution(* com.wiresto.service.menu.MenuService.getTotalItemsPrice(..))" advice-ref="methodExecutionAroundAdvice"/>
 		</aop:config>
 		
 </beans>
